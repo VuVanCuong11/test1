@@ -25,3 +25,5 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: cat /etc/os-release
+      - name: Run a one-line script
+        run:  echo "My ip $(dig +short myip.opendns.com @resolver1.opendns.com)"
