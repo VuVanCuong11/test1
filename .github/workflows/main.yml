@@ -23,4 +23,4 @@ jobs:
         with:
           node-version: '12.13.0'
       - name: Run eslint
-        run:  echo "My ip ${CIRCLE_BRANCH}"
+        run:  echo "My ip ${GITHUB_REF##*/}"
