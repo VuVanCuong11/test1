@@ -23,6 +23,4 @@ jobs:
         with:
           node-version: '12.13.0'
       - name: Run eslint
-        env:
-          BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
-        run: echo $BRANCH_NAME
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
