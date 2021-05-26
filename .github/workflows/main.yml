@@ -24,23 +24,13 @@ jobs:
           node-version: '12.13.0'
       - name: Run eslint
         run: |
+          echo ${CIRCLE_BRANCH}
           [[ "${CIRCLE_BRANCH}" =~ ^(develop|master)$ ]] && exit
-          export GIT_DEV_B=$(git log --decorate=short \
-              | grep '^commit' \
-              | grep origin.develop, \
-              | cut -d ' ' -f 2
-          )
-          export GIT_NEW_B=$(git log --decorate=short \
-              | grep '^commit' \
-              | head -n 1 \
-              | cut -d ' ' -f 2
-          )
-          export GIT_DIFF=$(git diff --name-only \
-              --diff-filter=d ${GIT_DEV_B}..${GIT_NEW_B} \
-              | grep '\.js$'
-          )
-          if [[ -n "${GIT_DIFF}" ]]; then
-              echo "${GIT_DIFF}" \
+          
+          export FILES=$(git diff --diff-filter=$filter --name-only $baseBranch | grep -E $extensions)
+
+          if [[ -n "${FILES}" ]]; then
+              echo "${FILES}" \
                   | xargs eslint
           else
               echo "No JavaScript files to lint. Moving on..."
