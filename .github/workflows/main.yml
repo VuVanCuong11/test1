@@ -23,4 +23,6 @@ jobs:
         with:
           node-version: '12.13.0'
       - name: Run eslint
-        run:  echo "My ip ${GITHUB_REF##*/}"
+        env:
+          BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
+        run: echo "asd $BRANCH_NAME"
