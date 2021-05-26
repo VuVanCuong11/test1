@@ -25,4 +25,4 @@ jobs:
       - name: Run eslint
         env:
           BRANCH_NAME: ${{ steps.extract_branch.outputs.branch }}
-        run: echo "asd $BRANCH_NAME"
+        run: echo $BRANCH_NAME
