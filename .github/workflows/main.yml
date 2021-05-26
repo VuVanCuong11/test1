@@ -28,23 +28,9 @@ jobs:
           [[ "${CIRCLE_BRANCH}" =~ ^(develop|master)$ ]] && exit
           
           export FILES=$(git diff --diff-filter=$filter --name-only $baseBranch | grep -E $extensions)
-          echo ${FILES}
-          export GIT_DEV_B=$(git log --decorate=short \
-              | grep '^commit' \
-              | grep origin.develop, \
-              | cut -d ' ' -f 2
-          )
-          export GIT_NEW_B=$(git log --decorate=short \
-              | grep '^commit' \
-              | head -n 1 \
-              | cut -d ' ' -f 2
-          )
-          export GIT_DIFF=$(git diff --name-only \
-              --diff-filter=d ${GIT_DEV_B}..${GIT_NEW_B} \
-              | grep '\.js$'
-          )
-          if [[ -n "${GIT_DIFF}" ]]; then
-              echo "${GIT_DIFF}" \
+
+          if [[ -n "${FILES}" ]]; then
+              echo "${FILES}" \
                   | xargs eslint
           else
               echo "No JavaScript files to lint. Moving on..."
