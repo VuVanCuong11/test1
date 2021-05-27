@@ -32,10 +32,5 @@ jobs:
           COMMIT_AFTER: ${{ github.event.after }}
           COMMIT_BEFORE: ${{ github.event.before }}
         run: |
-          export GIT_DIFF=$(git diff-tree  --name-only -r ${COMMIT_AFTER})
+          export GIT_DIFF=$(git show --pretty="" --name-only ${COMMIT_AFTER})
           echo "${GIT_DIFF}"
-          if [[ -n "${GIT_DIFF}" ]]; then
-              cho "${GIT_DIFF}" \
-                    | grep '\.js$' | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js
-          else
-              echo "No JavaScript files to lint. Moving on..."
