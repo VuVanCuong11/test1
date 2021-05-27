@@ -1,0 +1,17 @@
+{
+  "name": "adp-gbs-jp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint-fix": "eslint --quiet ./auction-side/client/ --fix",
+    "lint": "eslint --quiet  ./auction-side/client/"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-react": "^7.21.4"
+  }
+}
