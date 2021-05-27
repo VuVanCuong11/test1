@@ -42,15 +42,15 @@ jobs:
           git fetch origin
           if [[ -n "${COMMIT_HEAD}" ]]; then
               git fetch origin ${HEAD_BRANCH}
-              export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r origin/${COMMIT_BASE}..origin/${COMMIT_HEAD})
+              export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r origin/${COMMIT_BASE}..origin/${COMMIT_HEAD} | grep '\.js$' )
           else
               git fetch origin ${HEAD_BRANCH}
-              export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_AFTER})
+              export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_AFTER} | grep '\.js$' )
           fi
           echo "${GIT_DIFF}"
           if [[ -n "${GIT_DIFF}" ]]; then
               echo "${GIT_DIFF}" \
-                  | grep '\.js$' | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js --ignore-path .eslintignore
+                  | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js --ignore-path .eslintignore
           else
               echo "No JavaScript files to lint. Moving on..."
           fi
