@@ -35,7 +35,7 @@ jobs:
       - name: fetch
         env:
           TARGET_BRANCH: ${{ github.base_ref }}
-        run: git fetch --depth 1 origin feature/test-actions-2
+        run: git fetch --depth 1 origin ${TARGET_BRANCH}
       - name: ESLint
         env:
           COMMIT_AFTER: ${{ github.event.after }}
