@@ -32,10 +32,14 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Package Install
         run: npm install
-      - name: fetch
+      - name: fetch base
         env:
-          TARGET_BRANCH: ${{ github.base_ref }}
-        run: git fetch --depth 1 origin ${TARGET_BRANCH}
+          BASE_BRANCH: ${{ github.base_ref }}
+        run: git fetch --depth 1 origin ${BASE_BRANCH}
+      - name: fetch head
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: git fetch --depth 1 origin ${HEAD_BRANCH}
       - name: ESLint
         env:
           COMMIT_AFTER: ${{ github.event.after }}
