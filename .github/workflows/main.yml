@@ -42,7 +42,7 @@ jobs:
           git fetch origin
           if [[ -n "${COMMIT_HEAD}" ]]; then
               git fetch origin ${HEAD_BRANCH}
-              export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_HEAD}..${COMMIT_BASE})
+              export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r origin/${COMMIT_HEAD}..origin/${COMMIT_BASE})
           else
               git fetch origin ${HEAD_BRANCH}
               export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_AFTER})
