@@ -19,11 +19,6 @@ jobs:
     steps:
      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2.1.0
-      - uses: jitterbit/get-changed-files@v1
-        id: abc
-        with:
-          format: space-delimited
-          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup NodeJs
         uses: actions/setup-node@v1
         with:
@@ -54,7 +49,11 @@ jobs:
         run: echo "$MATRIX_CONTEXT"
       - name: Install
         run: npm install
-
+      - uses: jitterbit/get-changed-files@v1
+        id: abc
+        with:
+          format: space-delimited
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Printing
         run: |
           echo "Added+Modified:"
