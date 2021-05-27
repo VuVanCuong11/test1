@@ -49,5 +49,7 @@ jobs:
           COMMIT_AFTER: ${{ github.event.after }}
           COMMIT_BEFORE: ${{ github.event.before }}
         run: 
-          export GIT_DIFF=$(git log)
+          export GIT_DIFF=$(git diff --name-only \
+                --diff-filter=d ${COMMIT_BEFORE}..${COMMIT_AFTER}
+          )
           echo "${GIT_DIFF}"
