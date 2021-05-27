@@ -44,14 +44,7 @@ jobs:
         env:
           MATRIX_CONTEXT: ${{ toJSON(matrix) }}
         run: echo "$MATRIX_CONTEXT"
-      
-      - name: ESLint
-        env:
-          COMMIT_AFTER: ${{ github.event.after }}
-          COMMIT_BEFORE: ${{ github.event.before }}
-        run: 
-          export GIT_DIFF=$(git diff --name-only 6ddb94b1dc30e7a7f5d0aa66a532b19fb74cc02b..8cd9dab500ca17d91b9c59c5832c9221343b5378)
-          echo "${GIT_DIFF}"
+
       - name: Printing
         run: |
           echo "All:"
