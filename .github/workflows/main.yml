@@ -5,11 +5,7 @@ name: ESLint
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  push:
-    branches:
-      - "*"
-  pull_request:
-    branches: [ master, develop ]
+  push
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -43,8 +39,14 @@ jobs:
         env:
           COMMIT_AFTER: ${{ github.event.after || github.head_ref }}
           COMMIT_BEFORE: ${{ github.event.before || github.base_ref }}
+          COMMIT_HEAD: ${{ github.event.after || github.head_ref }}
+          COMMIT_BASE: ${{ github.event.before || github.base_ref }}
         run: |
-          export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_AFTER})
+          if [[ -n "${COMMIT_HEAD}" ]]; then
+              export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_HEAD}..${COMMIT_BASE})
+          else
+              export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_AFTER})
+
           echo "${GIT_DIFF}"
           if [[ -n "${GIT_DIFF}" ]]; then
               echo "${GIT_DIFF}" \
