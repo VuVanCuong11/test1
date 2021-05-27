@@ -32,14 +32,6 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Package Install
         run: npm install
-      - name: fetch base
-        env:
-          BASE_BRANCH: ${{ github.base_ref }}
-        run: git fetch --depth 1 origin ${BASE_BRANCH}
-      - name: fetch head
-        env:
-          HEAD_BRANCH: ${{ github.head_ref }}
-        run: git fetch --depth 1 origin ${HEAD_BRANCH}
       - name: ESLint
         env:
           COMMIT_AFTER: ${{ github.event.after }}
@@ -47,9 +39,12 @@ jobs:
           COMMIT_HEAD: ${{ github.head_ref }}
           COMMIT_BASE: ${{ github.base_ref }}
         run: |
+          git fetch origin
           if [[ -n "${COMMIT_HEAD}" ]]; then
+              git fetch origin ${HEAD_BRANCH}
               export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_HEAD}..${COMMIT_BASE})
           else
+              git fetch origin ${HEAD_BRANCH}
               export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_AFTER})
           fi
           echo "${GIT_DIFF}"
