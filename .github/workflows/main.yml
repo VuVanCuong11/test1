@@ -66,6 +66,6 @@ jobs:
           echo "Renamed:"
           echo "${{ steps.abc.outputs.renamed }}"
           echo "Modified:"
-          echo "${{ steps.abc.outputs.modified }}" | grep -E '\\.js?$' | node_modules/eslint/bin/eslint.js -c .eslintrc.js
+          echo "${{ steps.abc.outputs.modified }}" | grep '\.js$' | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js
           echo "Added+Modified:"
           echo "${{ steps.abc.outputs.added_modified }}"
