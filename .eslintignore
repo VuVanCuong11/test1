@@ -1,4 +1,5 @@
 functions/*/.common
 functions/*/node_modules
 auction-side/client/dist
+
 auction-side/client/appsinglepage/lib/*
