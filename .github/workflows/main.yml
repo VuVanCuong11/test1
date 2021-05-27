@@ -49,6 +49,8 @@ jobs:
         env:
           MATRIX_CONTEXT: ${{ toJSON(matrix) }}
         run: echo "$MATRIX_CONTEXT"
+      - name: Install
+        run: npm install
 
       - name: Printing
         run: |
@@ -63,4 +65,5 @@ jobs:
           echo "Modified:"
           echo "${{ steps.abc.outputs.modified }}"
           echo "Added+Modified:"
-          echo "${{ steps.abc.outputs.added_modified }}"
+          echo "${{ steps.abc.outputs.added_modified }}" | grep -E '\\.js?$' | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js
+          
