@@ -46,7 +46,7 @@ jobs:
               export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_HEAD}..${COMMIT_BASE})
           else
               export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_AFTER})
-
+          fi
           echo "${GIT_DIFF}"
           if [[ -n "${GIT_DIFF}" ]]; then
               echo "${GIT_DIFF}" \
