@@ -32,13 +32,15 @@ jobs:
       - name: fetch
         env:
           TARGET_BRANCH: ${{ github.base_ref }}
-        run: git fetch --depth 1 origin ${TARGET_BRANCH}
+        run: git fetch --depth 1 origin feature/test-actions-2
       - name: ESLint
         env:
           COMMIT_AFTER: ${{ github.event.after }}
           COMMIT_BEFORE: ${{ github.event.before }}
         run: |
-          export GIT_DIFF=$(git diff-tree --no-commit-id --name-only -r ${COMMIT_BEFORE}..${COMMIT_AFTER})
+          export BEFORE=$(echo "${COMMIT_BEFORE}" | cut -c1-7)
+          export AFTER=$(echo "${COMMIT_AFTER}" | cut -c1-7)
+          export GIT_DIFF=$(git diff-tree --no-commit-id --name-only -r ${BEFORE}..${AFTER})
           echo "${GIT_DIFF}"
           if [[ -n "${GIT_DIFF}" ]]; then
               echo "${GIT_DIFF}" \
