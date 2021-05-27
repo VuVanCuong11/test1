@@ -45,8 +45,5 @@ jobs:
           COMMIT_AFTER: ${{ github.event.after }}
           COMMIT_BEFORE: ${{ github.event.before }}
         run: 
-          export GIT_DIFF=$(git diff --name-only \
-                --diff-filter=d $COMMIT_BEFORE..$COMMIT_AFTER \
-                | grep '\.js$'
-          )
-          echo "${GIT_DIFF}"
+
+          echo "${COMMIT_AFTER} ${COMMIT_BEFORE}"
