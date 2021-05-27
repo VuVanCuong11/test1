@@ -32,9 +32,9 @@ jobs:
           COMMIT_AFTER: ${{ github.event.after }}
           COMMIT_BEFORE: ${{ github.event.before }}
         run: |
+          echo "$(git log)"
           export GIT_DIFF=$(git diff-tree  --name-only -r ${COMMIT_BEFORE}..${COMMIT_AFTER})
           echo "${GIT_DIFF}"
-          echo "$(git log)"
           if [[ -n "${GIT_DIFF}" ]]; then
               cho "${GIT_DIFF}" \
                     | grep '\.js$' | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js
