@@ -26,9 +26,9 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Package Install
         run: npm install
-        run: echo "$GITHUB_CONTEXT"
       - name: ESLint
         env:
           COMMIT_AFTER: ${{ github.event.after }}
