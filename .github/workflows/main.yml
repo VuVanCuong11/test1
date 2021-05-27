@@ -48,11 +48,11 @@ jobs:
           export GIT_DIFF=$(git diff --name-only \
                 --diff-filter=d $COMMIT_BEFORE..$COMMIT_AFTER \
                 | grep '\.js$'
-            )
-            echo "${GIT_DIFF}"
-            if [[ -n "${GIT_DIFF}" ]]; then
-                echo "${GIT_DIFF}" \
-                    | xargs eslint
-            else
-                echo "No JavaScript files to lint. Moving on..."
-            fi
+          )
+          echo "${GIT_DIFF}"
+          if [[ -n "${GIT_DIFF}" ]]; then
+              echo "${GIT_DIFF}" \
+                  | xargs eslint
+          else
+              echo "No JavaScript files to lint. Moving on..."
+          fi
