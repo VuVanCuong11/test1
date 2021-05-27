@@ -29,13 +29,17 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Package Install
         run: npm install
-      - name: ESLint
+      - name: fetch
         env:
           COMMIT_AFTER: ${{ github.event.after }}
           COMMIT_BEFORE: ${{ github.event.before }}
           TARGET_BRANCH: ${{ github.base_ref }}
+        run: git fetch --depth 1 origin ${TARGET_BRANCH}
+      - name: ESLint
+        env:
+          COMMIT_AFTER: ${{ github.event.after }}
+          COMMIT_BEFORE: ${{ github.event.before }}
           run: |
-          git fetch --depth 1 origin ${TARGET_BRANCH}
           export GIT_DIFF=$(git diff-tree --no-commit-id --name-only -r ${COMMIT_AFTER})
           echo "${GIT_DIFF}"
           if [[ -n "${GIT_DIFF}" ]]; then
