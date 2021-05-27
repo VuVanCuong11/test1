@@ -26,6 +26,8 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
+      - name: Package Install
+        run: npm install
         run: echo "$GITHUB_CONTEXT"
       - name: ESLint
         env:
@@ -34,3 +36,9 @@ jobs:
         run: |
           export GIT_DIFF=$(git diff-tree --no-commit-id --name-only -r ${COMMIT_AFTER})
           echo "${GIT_DIFF}"
+          if [[ -n "${GIT_DIFF}" ]]; then
+              echo "${GIT_DIFF}" \
+                  | grep '\.js$' | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js --ignore-path .eslintignore
+          else
+              echo "No JavaScript files to lint. Moving on..."
+          fi
