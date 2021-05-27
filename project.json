@@ -1,0 +1,15 @@
+{
+  "name": "jbs-stage",
+  "nameTemplate": "{{.Project.Name}}_{{.Function.Name}}",
+  "runtime": "nodejs12.x",
+  "handler": "index.handle",
+  "memory": 512,
+  "timeout": 60,
+
+  "environment": {},
+  "vpc": {
+    "securityGroups": ["sg-0d05000daa85704cc"],
+    "subnets": ["subnet-0cc935ac21bd21350", "subnet-0f12be82372e9317c"]
+  },
+  "defaultEnvironment": "stage"
+}
