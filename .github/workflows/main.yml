@@ -44,7 +44,7 @@ jobs:
           COMMIT_AFTER: ${{ github.event.after }}
           COMMIT_BEFORE: ${{ github.event.before }}
         run: |
-          export GIT_DIFF=$(git diff-tree --no-commit-id --name-only -r ${COMMIT_AFTER})
+          export GIT_DIFF=$(git diff-tree --no-commit-id --name-only -r --diff-filter=d ${COMMIT_AFTER})
           echo "${GIT_DIFF}"
           if [[ -n "${GIT_DIFF}" ]]; then
               echo "${GIT_DIFF}" \
