@@ -37,10 +37,10 @@ jobs:
         run: git fetch --depth 1 origin feature/test-actions-2
       - name: ESLint
         env:
-          COMMIT_AFTER: ${{ github.event.after || github.head_ref }}
-          COMMIT_BEFORE: ${{ github.event.before || github.base_ref }}
-          COMMIT_HEAD: ${{ github.event.after || github.head_ref }}
-          COMMIT_BASE: ${{ github.event.before || github.base_ref }}
+          COMMIT_AFTER: ${{ github.event.after }}
+          COMMIT_BEFORE: ${{ github.event.before }}
+          COMMIT_HEAD: ${{ github.head_ref }}
+          COMMIT_BASE: ${{ github.base_ref }}
         run: |
           if [[ -n "${COMMIT_HEAD}" ]]; then
               export GIT_DIFF=$(git diff-tree --no-commit-id --name-only --diff-filter=d -r ${COMMIT_HEAD}..${COMMIT_BASE})
