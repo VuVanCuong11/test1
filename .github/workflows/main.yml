@@ -19,11 +19,8 @@ jobs:
     steps:
      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2.1.0
-      - uses: jitterbit/get-changed-files@v1
-        id: abc
         with:
-          format: space-delimited
-          token: ${{ secrets.GITHUB_TOKEN }}
+           fetch-depth: 0
       - name: Setup NodeJs
         uses: actions/setup-node@v1
         with:
@@ -32,40 +29,22 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJSON(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJSON(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJSON(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
-      - name: Install
+      - name: Package Install
         run: npm install
-
-      - name: Printing
+      - name: fetch
+        env:
+          TARGET_BRANCH: ${{ github.base_ref }}
+        run: git fetch --depth 1 origin feature/test-actions-2
+      - name: ESLint
+        env:
+          COMMIT_AFTER: ${{ github.event.after }}
+          COMMIT_BEFORE: ${{ github.event.before }}
         run: |
-          echo "All:"
-          echo "${{ steps.abc.outputs.all }}"
-          echo "Added:"
-          echo "${{ steps.abc.outputs.added }}"
-          echo "Removed:"
-          echo "${{ steps.abc.outputs.removed }}"
-          echo "Renamed:"
-          echo "${{ steps.abc.outputs.renamed }}"
-          echo "Modified:"
-          echo "${{ steps.abc.outputs.modified }}" | grep '\.js$' | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js
-          echo "Added+Modified:"
-          echo "${{ steps.abc.outputs.added_modified }}"
+          export GIT_DIFF=$(git diff-tree --no-commit-id --name-only -r ${COMMIT_BEFORE}..${COMMIT_AFTER})
+          echo "${GIT_DIFF}"
+          if [[ -n "${GIT_DIFF}" ]]; then
+              echo "${GIT_DIFF}" \
+                  | grep '\.js$' | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js --ignore-path .eslintignore
+          else
+              echo "No JavaScript files to lint. Moving on..."
+          fi
