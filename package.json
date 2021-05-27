@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint-fix": "eslint --quiet ./auction-side/client/ --fix",
-    "lint": "git diff-index --name-only HEAD | grep '\.js$' | xargs node_modules/eslint/bin/eslint.js -c .eslintrc.js test.js test0.js"
+    "lint": "eslint --quiet  ./auction-side/client/"
   },
   "author": "",
   "license": "ISC",
