@@ -234,7 +234,7 @@ module.exports = {
     'no-underscore-dangle'             : ['warn'],
     'no-unneeded-ternary'              : ['error'],
     'no-whitespace-before-property'    : 'error',
-    'nonblock-statement-body-position' : ['off'], // そもそもnonblockを許さない
+    'nonblock-statement-body-position' : ['off'], //  そもそもnonblockを許さない
     'object-curly-newline'             : ['error', {consistent : true}],
     'object-curly-spacing'             : ['error', 'never'],
     'object-property-newline'          : ['error', {allowAllPropertiesOnSameLine : true}],
